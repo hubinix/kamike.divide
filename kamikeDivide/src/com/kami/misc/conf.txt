@@ -1,0 +1,7 @@
+website.db_password=wlnwzkybd
+website.db_ip=127.0.0.1
+website.db_port=3306
+website.db_name=kamike
+website.db_user=root
+ 
+ 
