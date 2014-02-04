@@ -258,8 +258,8 @@ public abstract class KamiGenericSelect<T> extends KamiSelect {
         if (rs == null) {
             return 0;
         }
-        if (rs.next()) {
-            sum = rs.getLong(1);
+        while (rs.next()) {
+            sum += rs.getLong(1);
         }
         return sum;
     }
