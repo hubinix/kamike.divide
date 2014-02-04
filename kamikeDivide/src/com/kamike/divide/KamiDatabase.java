@@ -91,6 +91,18 @@ public class KamiDatabase {
     }
 
     public String getUrl() {
+         StringBuilder sb = new StringBuilder();
+        sb.append("jdbc");
+        sb.append(":");
+        sb.append("mysql");
+        sb.append(":");
+        sb.append("//");
+        sb.append(ip);
+        sb.append(":");
+        sb.append(port);
+        sb.append("/");
+        sb.append(dbName);
+        this.url = sb.toString();
         return url;
     }
 

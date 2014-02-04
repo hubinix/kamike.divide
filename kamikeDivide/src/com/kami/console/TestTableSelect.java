@@ -5,13 +5,13 @@
  */
 package com.kami.console;
 
-import com.kamike.db.generic.GenericSelect;
+import com.kamike.divide.generic.KamiGenericSelect;
 
 /**
  *
  * @author THiNk
  */
-public class TestTableSelect extends GenericSelect<TestTable> {
+public class TestTableSelect extends KamiGenericSelect<TestTable> {
 
     public TestTableSelect(TestTable t) {
         super(t);

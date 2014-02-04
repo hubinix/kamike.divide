@@ -21,6 +21,11 @@ public class SystemConfig {
     public static String SYSDBNAME="kamike";
     public static String THIS_DB_ID="kamike";
     
+    public static String DB_USER = "root";
+    public static String DB_PASSWORD = "wlnwzkybd";
+    public static String DB_IP = "127.0.0.1";
+    public static String DB_PORT = "3306";
+    public static String DB_NAME = "kamike";
     
     private SystemConfig() {
     

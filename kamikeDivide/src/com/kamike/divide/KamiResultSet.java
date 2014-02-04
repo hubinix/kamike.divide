@@ -53,7 +53,7 @@ public class KamiResultSet {
     }
 
     public String getString(int i) {
-        return rows.get(index).getColumns().get(i).getStrValue();
+        return rows.get(index).getColumns().get(i-1).getStrValue();
     }
 
     
@@ -69,7 +69,7 @@ public class KamiResultSet {
     public Timestamp getTimestamp(int i) {
         if(this.currentRow!=null)
         {
-            return this.currentRow.getColumns().get(i).getTimestampValue();
+            return this.currentRow.getColumns().get(i-1).getTimestampValue();
         }
         else
         {
@@ -83,7 +83,7 @@ public class KamiResultSet {
 
         if(this.currentRow!=null)
         {
-            return this.currentRow.getColumns().get(i).getIntValue();
+            return this.currentRow.getColumns().get(i-1).getIntValue();
         }
         else
         {
@@ -95,7 +95,7 @@ public class KamiResultSet {
 
         if(this.currentRow!=null)
         {
-            return this.currentRow.getColumns().get(i).getLongValue();
+            return this.currentRow.getColumns().get(i-1).getLongValue();
         }
         else
         {
@@ -106,7 +106,7 @@ public class KamiResultSet {
 
         if(this.currentRow!=null)
         {
-            return this.currentRow.getColumns().get(i).getDoubleValue();
+            return this.currentRow.getColumns().get(i-1).getDoubleValue();
         }
         else
         {

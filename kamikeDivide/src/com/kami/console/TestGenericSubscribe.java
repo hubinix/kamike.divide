@@ -36,11 +36,11 @@ public class TestGenericSubscribe {
             test.setCreateDate(date);
             test.setId(UUID.randomUUID().toString());
             test.setName("创建测试=" + UUID.randomUUID().toString());
-            Transaction ts = new Transaction();
-            TestTableWriter ttw = new TestTableWriter(ts);
+           
+            TestTableWriter ttw = new TestTableWriter();
 
             ttw.add(test);
-            ts.save();
+            
         } catch (Exception ex) {
             Logger.getLogger(TestGenericSubscribe.class.getName()).log(Level.SEVERE, null, ex);
         } finally {

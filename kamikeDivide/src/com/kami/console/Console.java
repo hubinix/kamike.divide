@@ -10,6 +10,7 @@ import com.kamike.config.SystemConfig;
 import com.kamike.db.GenericCreator;
 
 import com.kamike.db.Transaction;
+import com.kamike.divide.KamiDbInst;
 import com.kamike.message.EventInst;
 import java.util.ArrayList;
 import java.util.concurrent.CountDownLatch;
@@ -30,20 +31,22 @@ public class Console {
             // TODO code application logic here
             SysInit sys = new SysInit();
             sys.startup();
-            //查询一下初始化连接池
+            //建立数据库的表,并插入当前数据库连接
+            KamiDbInst.getInstance().init();
+            //建立测试用表
             Transaction ts = new Transaction();
             GenericCreator<TestTable> creator = new TestTableCreator(ts, SystemConfig.SYSDBNAME);
             creator.init();
             ts.save();
-
+            //
             //查询测试
             TestTableReader tts = new TestTableReader();
             TestTable template = new TestTable();
             template.setCount(500);
             ArrayList<TestTable> testList = tts.find(template);
             System.out.println(tts.count());
-            Transaction testTs = new Transaction();
-            TestTableWriter ttw = new TestTableWriter(testTs);
+           
+            TestTableWriter ttw = new TestTableWriter();
 
             for (TestTable test : testList) {
                 System.out.println(test.getName() + ":" + test.getCreateDate());
@@ -51,7 +54,7 @@ public class Console {
                 ttw.edit(test);
 
             }
-            testTs.save();
+            
 
            //修改完毕
             ArrayList<TestTable> testList2 = tts.find(template);

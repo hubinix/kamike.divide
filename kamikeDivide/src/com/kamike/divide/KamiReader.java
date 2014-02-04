@@ -5,7 +5,7 @@
  */
 package com.kamike.divide;
 
-import com.kamike.db.SysDbInst;
+import com.kamike.db.DbInst;
 import com.kamike.db.generic.BaseReader;
 import com.kamike.db.generic.GenericSelect;
 import com.kamike.divide.generic.KamiGenericSelect;
@@ -38,7 +38,7 @@ public abstract class KamiReader<T> {
 
         long ret = 0;
         try {
-            select.preparedStatement(select.countSQL(select.rawSql()), ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            select.prepareStatement(select.countSQL(select.rawSql()), ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             rs = select.executeQuery();
             ret = select.count(rs);
 
@@ -73,7 +73,7 @@ public abstract class KamiReader<T> {
 
         ArrayList<T> ret = null;
         try {
-            select.preparedStatement(select.rawSql(), ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            select.prepareStatement(select.rawSql(), ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             rs = select.executeQuery();
             ret = select.fetch(rs);
 
@@ -108,7 +108,7 @@ public abstract class KamiReader<T> {
         KamiResultSet rs = null;
 
         try {
-            select.preparedStatement(select.sql(), ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            select.prepareStatement(select.sql(), ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             select.bind();
             rs = select.executeQuery();
             entity = select.fetchOnce(rs);

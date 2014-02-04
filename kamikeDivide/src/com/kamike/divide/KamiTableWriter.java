@@ -80,7 +80,7 @@ public class KamiTableWriter extends GenericWriter<KamiTable> {
         // String uuid= UUID.randomUUID().toString();
         String sql = "update  " + this.tableName + " set update_date=?,"
                 + "end_date=?,closed=1 "
-                + " where current_size>=bucket_size and closed=0";
+                + " where current_size>=expected_size and closed=0";
         int success = 0;
 
         PreparedStatement ps = null;

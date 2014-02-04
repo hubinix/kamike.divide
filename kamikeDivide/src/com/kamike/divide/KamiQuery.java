@@ -165,6 +165,7 @@ public class KamiQuery implements Runnable {
                             break;
                     }
                     i++;
+                    entity.getColumns().add(column);
                 }
                 if (result != null) {
                     result.add(entity);

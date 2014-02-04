@@ -5,7 +5,7 @@
  */
 package com.kamike.divide;
 
-import com.kamike.db.SysDbInst;
+import com.kamike.db.DbInst;
 import com.kamike.db.generic.BaseReader;
 import com.kamike.db.generic.GenericSelect;
 import java.sql.Connection;
@@ -48,7 +48,7 @@ public class KamiTableReader extends BaseReader<KamiTable> {
 
         long ret = 0;
         try {
-            conn = SysDbInst.getInstance().getDatabase().getSingleConnection();
+            conn = DbInst.getInstance().getDatabase().getSingleConnection();
             ps = conn.prepareStatement(select.countSQL(sql), ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 
             rs = ps.executeQuery();
@@ -90,7 +90,7 @@ public class KamiTableReader extends BaseReader<KamiTable> {
 
         ArrayList<KamiTable> ret = null;
         try {
-            conn = SysDbInst.getInstance().getDatabase().getSingleConnection();
+            conn = DbInst.getInstance().getDatabase().getSingleConnection();
             ps = conn.prepareStatement(select.rawSql() + "where t.name=? ", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             ps.setString(1, t.getName());
             rs = ps.executeQuery();
@@ -131,7 +131,7 @@ public class KamiTableReader extends BaseReader<KamiTable> {
 
         ArrayList<KamiTable> ret = null;
         try {
-            conn = SysDbInst.getInstance().getDatabase().getSingleConnection();
+            conn = DbInst.getInstance().getDatabase().getSingleConnection();
             ps = conn.prepareStatement(select.rawSql() + "where t.name=? ", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             ps.setString(1, name);
             rs = ps.executeQuery();
@@ -173,14 +173,14 @@ public class KamiTableReader extends BaseReader<KamiTable> {
 
         ArrayList<KamiTable> ret = null;
         try {
-            conn = SysDbInst.getInstance().getDatabase().getSingleConnection();
+            conn = DbInst.getInstance().getDatabase().getSingleConnection();
             ps = conn.prepareStatement(select.rawSql() + "WHERE  t.closed=0 and t.name = ?  "
                     + "and t.closed=0 and t.alive=1  "
                     + "order by  t.create_date desc limit ?",
                     ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_READ_ONLY);
             ps.setString(1, name);
-            ps.setInt(1, num);
+            ps.setInt(2, num);
             rs = ps.executeQuery();
             ret = select.fetch(rs);
 
@@ -219,7 +219,7 @@ public class KamiTableReader extends BaseReader<KamiTable> {
 
         ArrayList<KamiTable> ret = null;
         try {
-            conn = SysDbInst.getInstance().getDatabase().getSingleConnection();
+            conn = DbInst.getInstance().getDatabase().getSingleConnection();
             ps = conn.prepareStatement(select.rawSql() + " where t.name= ? "
                     + "and t.begin_date<? and t.end_date>? "
                     + "order by  t.create_date desc", ResultSet.TYPE_SCROLL_INSENSITIVE,

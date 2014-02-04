@@ -17,13 +17,16 @@ import java.util.logging.Logger;
  */
 public class KamiTransaction extends Transaction{
 
-    private String id;
+   
     public KamiTransaction(String id) {
         super();
-        this.id=id;
+        this.init(id);
     }
     @Override
      protected void init() {
+         
+    }
+      protected void init(String id) {
         this.rollback = false;
         try {
             con = KamiDbInst.getInstance().getDatabase(id).getConnection();

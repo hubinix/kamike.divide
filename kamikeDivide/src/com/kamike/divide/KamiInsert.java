@@ -5,6 +5,7 @@
  */
 package com.kamike.divide;
 
+import com.kamike.db.GenericCreator;
 import com.kamike.db.Transaction;
 import java.util.ArrayList;
 import java.util.Date;
@@ -16,7 +17,7 @@ import org.apache.commons.lang.time.FastDateFormat;
  *
  * @author THiNk
  */
-public class KamiInsert extends KamiSQL {
+public abstract class KamiInsert<T> extends KamiSQL {
 
     private int copyNum = 1;
     private static volatile ReentrantLock lock = new ReentrantLock();
@@ -35,6 +36,7 @@ public class KamiInsert extends KamiSQL {
         this.copyNum = copyNum;
     }
 
+    public abstract GenericCreator<T> creator(Transaction ts,String dbName);
     @Override
     public ArrayList<KamiTable> findTables() {
 
@@ -49,6 +51,7 @@ public class KamiInsert extends KamiSQL {
         KamiTableWriter tableWriter = new KamiTableWriter(ts);
         tableWriter.closeFull();
         ts.save();
+        ts=null;
         ArrayList<KamiTable> tables = tableReader.findForInsert(this.tableName, copyNum);
 
         if (tables.isEmpty()) {
@@ -80,8 +83,8 @@ public class KamiInsert extends KamiSQL {
 
                         //在所有分库里面创建表              
                         Transaction createTableTranscation = new KamiTransaction(db.getId());
-                        KamiTableCreator tableCreator = new KamiTableCreator(ts, db.getDbName());
-                        tableCreator.init(tableName);
+                        GenericCreator<T> tableCreator = creator(createTableTranscation, db.getDbName());
+                        tableCreator.init(t.getRealName());
                         createTableTranscation.save();
                         ret.add(t);
                         
@@ -89,12 +92,12 @@ public class KamiInsert extends KamiSQL {
                         //将更新数据库的写入时间，供负载均衡使用
                         Transaction localTs = new Transaction();
                         //在本地库写入元数据表
-                        KamiTableWriter createTableWriter = new KamiTableWriter(createTableTranscation);
+                        KamiTableWriter createTableWriter = new KamiTableWriter(localTs);
                         createTableWriter.add(t);
                         KamiDatabaseWriter databaseWriter = new KamiDatabaseWriter(localTs);
                         db.setUpdateDate(now);
                         databaseWriter.edit(db);
-                        ts.save();
+                        localTs.save();
                         databaseWriter=null;
                         localTs=null;
                     }

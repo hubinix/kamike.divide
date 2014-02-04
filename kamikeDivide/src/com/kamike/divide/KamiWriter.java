@@ -17,22 +17,22 @@ import java.util.logging.Logger;
  * @author THiNk
  * @param <T>
  */
-public abstract class KamiWriter<T>   {
+public abstract class KamiWriter<T> {
 
     protected KamiWriter() {
- 
+
     }
 
- 
+    public abstract KamiGenericInsert<T> createKamiGenericInsert(T t);
+
     public boolean add(T t) {
-        
+
         // String uuid= UUID.randomUUID().toString();
-        KamiGenericInsert<T> insert = new KamiGenericInsert<>(t);
+        KamiGenericInsert<T> insert = createKamiGenericInsert(t);
         int success = 0;
-      
 
         try {
-            insert.preparedStatement(insert.sql());
+            insert.prepareStatement(insert.sql());
             insert.bind();
             insert.executeUpdate();
 
@@ -57,16 +57,14 @@ public abstract class KamiWriter<T>   {
         return true;
     }
 
- 
     public boolean delete(T t) {
-        
+
         // String uuid= UUID.randomUUID().toString();
         KamiGenericDelete<T> delete = new KamiGenericDelete<>(t);
         int success = 0;
-      
 
         try {
-            delete.preparedStatement(delete.sql());
+            delete.prepareStatement(delete.sql());
             delete.bind();
             delete.executeUpdate();
 
@@ -90,16 +88,15 @@ public abstract class KamiWriter<T>   {
         }
         return true;
     }
- 
+
     public boolean edit(T t) {
 
         // String uuid= UUID.randomUUID().toString();
         KamiGenericUpdate<T> update = new KamiGenericUpdate<>(t);
         int success = 0;
-      
 
         try {
-            update.preparedStatement(update.sql());
+            update.prepareStatement(update.sql());
             update.bind();
             update.executeUpdate();
 

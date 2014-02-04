@@ -24,7 +24,7 @@ import java.util.Iterator;
  * @author THiNk
  * @param <T>
  */
-public class KamiGenericInsert<T> extends KamiInsert {
+public abstract class KamiGenericInsert<T> extends KamiInsert {
 
     
 
@@ -125,6 +125,8 @@ public class KamiGenericInsert<T> extends KamiInsert {
 
         return i;
     }
+
+   
 
    
 

@@ -116,13 +116,13 @@ public abstract class KamiSQL implements AutoCloseable {
 
     }
 
-    public void preparedStatement(String sql, int i, int i1) throws SQLException {
+    public void prepareStatement(String sql, int i, int i1) throws SQLException {
         kamiStatement.setSql(sql);
         kamiStatement.setResultSetOption1(i);
         kamiStatement.setResultSetOption2(i1);
     }
 
-    public void preparedStatement(String sql) throws SQLException {
+    public void prepareStatement(String sql) throws SQLException {
         kamiStatement.setSql(sql);
         kamiStatement.setResultSetOption1(ResultSet.TYPE_SCROLL_SENSITIVE);
         kamiStatement.setResultSetOption2(ResultSet.CONCUR_UPDATABLE);
@@ -133,7 +133,7 @@ public abstract class KamiSQL implements AutoCloseable {
         column.setStrValue(value);
         column.setType(GenericType.String);
 
-        kamiStatement.getColumns().add(i, column);
+        kamiStatement.getColumns().add(i-1, column);
 
     }
 
@@ -141,13 +141,13 @@ public abstract class KamiSQL implements AutoCloseable {
         GenericColumn column = new GenericColumn();
         column.setIntValue(value);
         column.setType(GenericType.Int);
-        kamiStatement.getColumns().add(i, column);
+        kamiStatement.getColumns().add(i-1, column);
 
     }
 
     public void setColumn(int i, GenericColumn column) {
 
-        kamiStatement.getColumns().add(i, column);
+        kamiStatement.getColumns().add(i-1, column);
 
     }
 
@@ -155,7 +155,7 @@ public abstract class KamiSQL implements AutoCloseable {
         GenericColumn column = new GenericColumn();
         column.setTimestampValue(value);
         column.setType(GenericType.Timestamp);
-        kamiStatement.getColumns().add(i, column);
+        kamiStatement.getColumns().add(i-1, column);
 
     }
 
@@ -163,7 +163,7 @@ public abstract class KamiSQL implements AutoCloseable {
         GenericColumn column = new GenericColumn();
         column.setLongValue(value);
         column.setType(GenericType.Long);
-        kamiStatement.getColumns().add(i, column);
+        kamiStatement.getColumns().add(i-1, column);
 
     }
 
@@ -171,7 +171,7 @@ public abstract class KamiSQL implements AutoCloseable {
         GenericColumn column = new GenericColumn();
         column.setBooleanValue(value);
         column.setType(GenericType.Boolean);
-        kamiStatement.getColumns().add(i, column);
+        kamiStatement.getColumns().add(i-1, column);
 
     }
 
@@ -179,7 +179,7 @@ public abstract class KamiSQL implements AutoCloseable {
         GenericColumn column = new GenericColumn();
         column.setDoubleValue(value);
         column.setType(GenericType.Double);
-        kamiStatement.getColumns().add(i, column);
+        kamiStatement.getColumns().add(i-1, column);
 
     }
 }

@@ -27,11 +27,7 @@ public class SystemConstants {
     public static String SQLSERVER_DRIVER = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
 
     
-    public static String DB_USER = "website.db_user";
-    public static String DB_PASSWORD = "website.db_password";
-    public static String DB_IP = "website.db_ip";
-    public static String DB_PORT = "website.db_port";
-    public static String DB_NAME = "website.db_name";
+ 
 
    
 }

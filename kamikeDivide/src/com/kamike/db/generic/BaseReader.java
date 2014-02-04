@@ -6,7 +6,7 @@
 package com.kamike.db.generic;
 
 import com.kamike.db.GenericReader;
-import com.kamike.db.SysDbInst;
+import com.kamike.db.DbInst;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -40,7 +40,7 @@ public abstract class BaseReader<T> extends GenericReader<T> {
 
         long ret = 0;
         try {
-            conn = SysDbInst.getInstance().getDatabase().getSingleConnection();
+            conn = DbInst.getInstance().getDatabase().getSingleConnection();
             ps = conn.prepareStatement(select.countSQL(select.rawSql()), ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 
             rs = ps.executeQuery();
@@ -83,7 +83,7 @@ public abstract class BaseReader<T> extends GenericReader<T> {
 
         ArrayList<T> ret = null;
         try {
-            conn = SysDbInst.getInstance().getDatabase().getSingleConnection();
+            conn = DbInst.getInstance().getDatabase().getSingleConnection();
             ps = conn.prepareStatement(select.rawSql(), ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             rs = ps.executeQuery();
             ret = select.fetch(rs);
@@ -125,7 +125,7 @@ public abstract class BaseReader<T> extends GenericReader<T> {
         T entity = null;
 
         try {
-            conn = SysDbInst.getInstance().getDatabase().getSingleConnection();
+            conn = DbInst.getInstance().getDatabase().getSingleConnection();
             ps = conn.prepareStatement(select.sql(), ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             int index = select.bind(ps);
 

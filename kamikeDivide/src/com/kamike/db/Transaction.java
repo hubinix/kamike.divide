@@ -36,7 +36,7 @@ public class Transaction {
     protected void init() {
         this.rollback = false;
         try {
-            con = SysDbInst.getInstance().getDatabase().getSingleConnection();
+            con = DbInst.getInstance().getDatabase().getSingleConnection();
 
             con.setAutoCommit(false);
         } catch (SQLException ex) {

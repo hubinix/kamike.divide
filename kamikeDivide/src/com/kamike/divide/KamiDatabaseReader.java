@@ -5,7 +5,7 @@
  */
 package com.kamike.divide;
 
-import com.kamike.db.SysDbInst;
+import com.kamike.db.DbInst;
 import com.kamike.db.generic.BaseReader;
 import com.kamike.db.generic.GenericSelect;
 import java.sql.Connection;
@@ -47,7 +47,7 @@ public class KamiDatabaseReader extends BaseReader<KamiDatabase> {
 
         ArrayList<KamiDatabase> ret = null;
         try {
-            conn = SysDbInst.getInstance().getDatabase().getSingleConnection();
+            conn = DbInst.getInstance().getDatabase().getSingleConnection();
             ps = conn.prepareStatement(select.rawSql() + "where t.id=? ", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             ps.setString(1, t.getId());
             rs = ps.executeQuery();
@@ -89,7 +89,7 @@ public class KamiDatabaseReader extends BaseReader<KamiDatabase> {
 
         KamiDatabase ret = null;
         try {
-            conn = SysDbInst.getInstance().getDatabase().getSingleConnection();
+            conn = DbInst.getInstance().getDatabase().getSingleConnection();
             ps = conn.prepareStatement(select.rawSql() + "where t.id=? ", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             ps.setString(1, id);
             rs = ps.executeQuery();
@@ -131,7 +131,7 @@ public class KamiDatabaseReader extends BaseReader<KamiDatabase> {
 
         ArrayList<KamiDatabase> ret = null;
         try {
-            conn = SysDbInst.getInstance().getDatabase().getSingleConnection();
+            conn = DbInst.getInstance().getDatabase().getSingleConnection();
             ps = conn.prepareStatement(select.rawSql() + " order by update_date asc limit ?", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             ps.setInt(1, num);
             rs = ps.executeQuery();

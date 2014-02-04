@@ -5,17 +5,18 @@
  */
 package com.kami.console;
 
-import com.kamike.db.GenericWriter;
-import com.kamike.db.Transaction;
+import com.kamike.divide.KamiWriter;
+import com.kamike.divide.generic.KamiGenericInsert;
 
 /**
  *
  * @author THiNk
  */
-public class TestTableWriter extends GenericWriter<TestTable> {
+public class TestTableWriter extends KamiWriter<TestTable> {
 
-    public TestTableWriter(Transaction ts) {
-        super(ts);
+    @Override
+    public KamiGenericInsert<TestTable> createKamiGenericInsert(TestTable t) {
+       return new TestTableInsert(t);
     }
-    
+
 }
