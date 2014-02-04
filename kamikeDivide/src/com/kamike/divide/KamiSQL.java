@@ -50,10 +50,18 @@ public abstract class KamiSQL implements AutoCloseable {
 
     public KamiSQL(String tableName) {
         this.tableName = tableName;
-
         kamiStatement = new KamiStatement(tableName);
         this.waitSecond = 60;
+    }
 
+    public KamiSQL() {
+
+    }
+
+    public void init() {
+         
+        kamiStatement = new KamiStatement(tableName);
+        this.waitSecond = 60;
     }
 
     public void executeUpdate() {
@@ -137,6 +145,12 @@ public abstract class KamiSQL implements AutoCloseable {
 
     }
 
+    public void setColumn(int i, GenericColumn column) {
+
+        kamiStatement.getColumns().add(i, column);
+
+    }
+
     public void setTimestamp(int i, Timestamp value) {
         GenericColumn column = new GenericColumn();
         column.setTimestampValue(value);
@@ -149,6 +163,14 @@ public abstract class KamiSQL implements AutoCloseable {
         GenericColumn column = new GenericColumn();
         column.setLongValue(value);
         column.setType(GenericType.Long);
+        kamiStatement.getColumns().add(i, column);
+
+    }
+
+    public void setBoolean(int i, boolean value) {
+        GenericColumn column = new GenericColumn();
+        column.setBooleanValue(value);
+        column.setType(GenericType.Boolean);
         kamiStatement.getColumns().add(i, column);
 
     }

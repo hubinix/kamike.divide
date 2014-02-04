@@ -1,6 +1,16 @@
- 
-package com.kamike.db.generic;
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.kamike.divide.generic;
 
+import com.kamike.db.generic.FieldName;
+import com.kamike.db.generic.GenericColumn;
+import com.kamike.db.generic.GenericReflect;
+import com.kamike.db.generic.GenericType;
+import com.kamike.db.generic.TableName;
+import com.kamike.divide.KamiDelete;
 import java.lang.reflect.Field;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -10,22 +20,22 @@ import java.util.Date;
 import java.util.Iterator;
 
 /**
- * 
- * 
- * @author brin
- *  hubinix@gmail.com
+ *
+ * @author THiNk
+ * @param <T>
  */
-public class GenericDelete<T> {
+public class KamiGenericDelete<T> extends KamiDelete {
 
+    
     
     protected ArrayList<GenericColumn> ids;
 
-    private String tableName;
+    public KamiGenericDelete(T t) {
+        super();
 
-    public GenericDelete(T t) {
-     
+         
         tableName = t.getClass().getAnnotation(TableName.class).value();
-
+        this.init();
         Field[] fs = t.getClass().getDeclaredFields();
         ids = new ArrayList<>();
 
@@ -70,13 +80,11 @@ public class GenericDelete<T> {
             }
         }
     }
-    
-    
 
     public String sql() {
         StringBuffer buffer = new StringBuffer();
         buffer.append("delete from ");
-        buffer.append(getTableName());
+        buffer.append(TableName());
         buffer.append("  where ");
         for (Iterator<GenericColumn> it = ids.iterator(); it.hasNext();) {
             GenericColumn id = it.next();
@@ -89,69 +97,16 @@ public class GenericDelete<T> {
         return buffer.toString();
     }
 
-    public String sql(String dbName) {
-        StringBuffer buffer = new StringBuffer();
-        buffer.append("delete from ");
-        buffer.append(dbName);
-        buffer.append(".");
-        buffer.append(getTableName());
-        buffer.append("  where ");
-        for (Iterator<GenericColumn> it = ids.iterator(); it.hasNext();) {
-            GenericColumn id = it.next();
-            buffer.append(id.getName());
-            buffer.append("=? ");
-            if (it.hasNext()) {
-                buffer.append(" and ");
-            }
-        }
-        return buffer.toString();
-    }
+    public int bind() throws SQLException {
 
-    public int bind(PreparedStatement ps) throws SQLException {
-        if (ps == null) {
-            return 0;
-        }
         int i = 1;
         for (Iterator<GenericColumn> it = ids.iterator(); it.hasNext();) {
             GenericColumn column = it.next();
-            switch (column.getType()) {
-                case Int:
-                    ps.setInt(i, column.getIntValue());
-                    break;
-                case Long:
-                    ps.setLong(i, column.getLongValue());
-                    break;
-                case Double:
-                    ps.setDouble(i, column.getDoubleValue());
-                    break;
-                case Boolean:
-                    ps.setBoolean(i, column.getBooleanValue());
-                    break;
-                case Timestamp:
-                    ps.setTimestamp(i, column.getTimestampValue());
-                    break;
-                case String:
-                    ps.setString(i, column.getStrValue());
-                    break;
-            }
+            this.setColumn(i, column);
             i++;
         }
 
         return i;
-    }
-
-    /**
-     * @return the tableName
-     */
-    public String getTableName() {
-        return tableName;
-    }
-
-    /**
-     * @param tableName the tableName to set
-     */
-    public void setTableName(String tableName) {
-        this.tableName = tableName;
     }
 
 }

@@ -4,12 +4,12 @@
  * and open the template in the editor.
  */
 
-package com.kamike.db;
+package com.kamike.divide.generic;
 
 /**
  *
  * @author THiNk
  */
-public class NewClass {
+public class KamiGenericSelect {
     
 }

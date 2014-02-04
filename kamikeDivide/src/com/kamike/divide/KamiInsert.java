@@ -26,6 +26,9 @@ public class KamiInsert extends KamiSQL {
         this.copyNum = 1;
 
     }
+     public KamiInsert() {
+        super();
+    }
 
     public KamiInsert(String tableName, int copyNum) {
         super(tableName);

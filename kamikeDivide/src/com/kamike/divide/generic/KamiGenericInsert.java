@@ -1,8 +1,17 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.kamike.divide.generic;
 
-package com.kamike.db.generic;
-
+import com.kamike.db.generic.FieldName;
+import com.kamike.db.generic.GenericColumn;
+import com.kamike.db.generic.GenericReflect;
+import com.kamike.db.generic.GenericType;
+import com.kamike.db.generic.TableName;
+import com.kamike.divide.KamiInsert;
 import java.lang.reflect.Field;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -11,14 +20,13 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 /**
- * 
- * 
- * @author brin
- *  hubinix@gmail.com
+ *
+ * @author THiNk
+ * @param <T>
  */
-public class GenericInsert<T> {
+public class KamiGenericInsert<T> extends KamiInsert {
 
-     
+    
 
     protected ArrayList<GenericColumn> columns;
 
@@ -26,11 +34,13 @@ public class GenericInsert<T> {
 
     protected ArrayList<Field> fields;
 
-    private String tableName;
-
-    public GenericInsert(T t) {
-     
+    public KamiGenericInsert(T t) {
+        super();
         tableName = t.getClass().getAnnotation(TableName.class).value();
+        this.init();
+        
+       
+
         Field[] fs = t.getClass().getDeclaredFields();
         columns = new ArrayList<>();
 
@@ -75,10 +85,14 @@ public class GenericInsert<T> {
         }
     }
 
+   
+
+    
+
     public String sql() {
         StringBuffer buffer = new StringBuffer();
         buffer.append("insert into ");
-        buffer.append(getTableName());
+        buffer.append(this.TableName());
         buffer.append("(  ");
         StringBuffer values = new StringBuffer();
         for (Iterator<GenericColumn> it = columns.iterator(); it.hasNext();) {
@@ -98,76 +112,20 @@ public class GenericInsert<T> {
         return buffer.toString();
     }
 
-    public String sql(String dbName) {
-        StringBuffer buffer = new StringBuffer();
-        buffer.append("insert into ");
-        buffer.append(dbName);
-        buffer.append(".");
-        buffer.append(getTableName());
-        buffer.append("(  ");
-        StringBuffer values = new StringBuffer();
-        for (Iterator<GenericColumn> it = columns.iterator(); it.hasNext();) {
-            GenericColumn column = it.next();
-            buffer.append(column.getName());
-            values.append("?");
-            if (it.hasNext()) {
-                buffer.append(",");
-                values.append(",");
-            }
-        }
-        buffer.append(")");
-        buffer.append(" values(");
-        buffer.append(values);
-        buffer.append(") ");
+   
 
-        return buffer.toString();
-    }
-
-    public int bind(PreparedStatement ps) throws SQLException {
-        if (ps == null) {
-            return 0;
-        }
+    public int bind() throws SQLException {
+        
         int i = 1;
         for (Iterator<GenericColumn> it = columns.iterator(); it.hasNext();) {
             GenericColumn column = it.next();
-            switch (column.getType()) {
-                case Int:
-                    ps.setInt(i, column.getIntValue());
-                    break;
-                case Long:
-                    ps.setLong(i, column.getLongValue());
-                    break;
-                case Double:
-                    ps.setDouble(i, column.getDoubleValue());
-                    break;
-                case Boolean:
-                    ps.setBoolean(i, column.getBooleanValue());
-                    break;
-                case Timestamp:
-                    ps.setTimestamp(i, column.getTimestampValue());
-                    break;
-                case String:
-                    ps.setString(i, column.getStrValue());
-                    break;
-            }
+            this.setColumn(i, column);
             i++;
         }
 
         return i;
     }
 
-    /**
-     * @return the tableName
-     */
-    public String getTableName() {
-        return tableName;
-    }
-
-    /**
-     * @param tableName the tableName to set
-     */
-    public void setTableName(String tableName) {
-        this.tableName = tableName;
-    }
+   
 
 }
