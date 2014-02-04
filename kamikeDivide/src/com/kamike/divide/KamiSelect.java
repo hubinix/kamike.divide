@@ -29,6 +29,10 @@ public class KamiSelect extends KamiSQL {
 
     }
 
+    public KamiSelect() {
+        super();
+    }
+
     @Override
     public void close() throws Exception {
 
